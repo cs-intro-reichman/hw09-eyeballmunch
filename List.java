@@ -31,6 +31,10 @@ public class List {
     /** GIVE Adds a CharData object with the given character to the beginning of this list. */
     public void addFirst(char chr) {
         // Your code goes here
+        CharData newCharData = new CharData(chr);
+        Node newNode = new Node(newCharData, first);
+        first = newNode;
+        size++;
     }
     
     /** GIVE Textual representation of this list. */
@@ -44,6 +48,18 @@ public class List {
      *  or -1 if there is no such object in this list. */
     public int indexOf(char chr) {
         // Your code goes here
+
+        Node current = first;
+        int index = 0;
+        
+        while (current != null) {
+            if (current.cp.chr == chr) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        
         return -1;
     }
 
@@ -59,6 +75,27 @@ public class List {
      *  true. Otherwise, returns false. */
     public boolean remove(char chr) {
         // Your code goes here
+       
+        if (first == null) {
+        return false;
+        }
+    
+        if (first.cp.chr == chr) {
+            first = first.next;
+            size--;
+            return true;
+        }
+        
+        Node current = first;
+        while (current.next != null) {
+            if (current.next.cp.chr == chr) {
+                current.next = current.next.next;
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
+        
         return false;
     }
 
@@ -67,7 +104,16 @@ public class List {
      *  throws an IndexOutOfBoundsException. */
     public CharData get(int index) {
         // Your code goes here
-        return null;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        
+        Node current = first;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        
+        return current.cp;
     }
 
     /** Returns an array of CharData objects, containing all the CharData objects in this list. */
